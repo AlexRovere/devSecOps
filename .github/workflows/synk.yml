@@ -30,8 +30,3 @@ jobs:
         with:
           command: code test
           args: --all-projects --severity-threshold=high --sarif-file-output=snyk-code.sarif --exit-code=0
-
-      - name: Upload Snyk Code Scan Results
-        uses: github/codeql-action/upload-sarif@v2
-        with:
-          sarif_file: snyk-code.sarif
