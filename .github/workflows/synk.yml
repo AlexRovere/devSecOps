@@ -21,3 +21,16 @@ jobs:
         with:
           command: monitor
           args: --all-projects
+
+      - name: Synk code scan
+        uses: snyk/actions/python@master
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          command: code test
+          args: --all-projects --severity-threshold=high --sarif-file-output=snyk-code.sarif
+
+      - name: Upload Snyk Code Scan Results
+        uses: github/codeql-action/upload-sarif@v2
+        with:
+          sarif_file: snyk-code.sarif
