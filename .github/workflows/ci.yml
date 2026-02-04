@@ -1,24 +1,29 @@
 name: CI Complète
 
 on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
   workflow_dispatch:
 
 jobs:
   call-lint:
     uses: ./.github/workflows/01-lint.yml
 
-  call-security:
-    needs: call-lint
+  call-snyk:
     uses: ./.github/workflows/02-snyk.yml
     secrets: inherit
 
   call-sonarqube:
-    needs: call-security
     uses: ./.github/workflows/03-sonarqube.yml
     secrets: inherit
+    permissions:
+      contents: read
+      pull-requests: read
 
   call-docker:
-    needs: call-sonarqube
+    needs: [call-lint, call-snyk, call-sonarqube]
     uses: ./.github/workflows/04-docker.yml
 
   notification:
