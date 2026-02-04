@@ -1,18 +1,16 @@
-name: 04 - Docker"
+name: 04 - Docker
 
 on:
-  workflow_run:
-    workflows: ["03 - SonarQube"]
-    types:
-      - completed
-    branches:
-      - master
+  workflow_call:
   workflow_dispatch:
 
 jobs:
   scan-images:
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Lint Backend Dockerfile
         uses: hadolint/hadolint-action@v3.1.0

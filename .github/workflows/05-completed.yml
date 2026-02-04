@@ -1,12 +1,8 @@
 name: 05 - Completed
 
 on:
-  workflow_run:
-    workflows: ["04 - Docker"]
-    types:
-      - completed
-    branches:
-      - master
+  workflow_call:
+  workflow_dispatch:
 
 jobs:
   notification:
