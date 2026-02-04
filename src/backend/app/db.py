@@ -12,12 +12,14 @@ engine = create_engine(
 
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-"""Base class for all our models to inherit from."""
 class Base(DeclarativeBase):
+    """Base class for all our models to inherit from."""
+
     pass
 
-"""Return a database session. Closes it after use."""
 def get_db() -> sessionmaker:
+    """Return a database session. Closes it after use."""
+
     db = SessionLocal()
     try:
         yield db
