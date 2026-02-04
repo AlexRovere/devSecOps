@@ -7,22 +7,22 @@ on:
 
 jobs:
   call-lint:
-    uses: ./.github/workflows/01-lint.yml@master
+    uses: ./.github/workflows/01-lint.yml
 
   call-security:
     needs: call-lint
-    uses: ./.github/workflows/02-snyk.yml@master
+    uses: ./.github/workflows/02-snyk.yml
     secrets: inherit
 
   call-sonarqube:
     needs: call-security
-    uses: ./.github/workflows/03-sonarqube.yml@master
+    uses: ./.github/workflows/03-sonarqube.yml
     secrets: inherit
 
   call-docker:
     needs: call-sonarqube
-    uses: ./.github/workflows/04-docker.yml@master
+    uses: ./.github/workflows/04-docker.yml
 
   notification:
     needs: call-docker
-    uses: ./.github/workflows/05-completed.yml@master
+    uses: ./.github/workflows/05-completed.yml
