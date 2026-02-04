@@ -1,8 +1,9 @@
-name: pre-commit
+name: 01 - pre-commit
 on:
   push:
     branches:
     - master
+  workflow_dispatch:
 
 jobs:
   pre-commit:

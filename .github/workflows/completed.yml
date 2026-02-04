@@ -1,0 +1,19 @@
+name: 05 - Completed
+
+on:
+  workflow_run:
+    workflows: ["04 - Docker"]
+    types:
+      - completed
+    branches:
+      - master
+
+jobs:
+  notification:
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Print Success Message
+        run: echo "All previous workflows have been completed successfully."

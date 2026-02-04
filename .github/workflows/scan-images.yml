@@ -1,0 +1,54 @@
+name: 04 - Docker"
+
+on:
+  workflow_run:
+    workflows: ["03 - SonarQube"]
+    types:
+      - completed
+    branches:
+      - master
+  workflow_dispatch:
+
+jobs:
+  scan-images:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Lint Backend Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./src/backend/Dockerfile
+
+      - name: Lint Frontend Dockerfile
+        uses: hadolint/hadolint-action@v3.1.0
+        with:
+          dockerfile: ./src/frontend/Dockerfile
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # --- ANALYSE DU BACKEND ---
+      - name: Build Backend Docker image
+        run: docker build -t my-back:test ./src/backend
+
+      - name: Scan Backend with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "image"
+          image-ref: "my-back:test"
+          format: "table"
+          severity: "CRITICAL,HIGH,MEDIUM"
+          exit-code: "0"
+
+      # --- ANALYSE DU FRONTEND ---
+      - name: Build Frontend Docker image
+        run: docker build -t my-front:test ./src/frontend
+
+      - name: Scan Frontend with Trivy
+        uses: aquasecurity/trivy-action@master
+        with:
+          scan-type: "image"
+          image-ref: "my-front:test"
+          format: "table"
+          severity: "CRITICAL,HIGH,MEDIUM"
+          exit-code: "0"

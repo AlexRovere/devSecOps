@@ -1,10 +1,12 @@
-name: Synk security scan
+name: 02 - Synk
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
-    branches: [ "master" ]
+  workflow_run:
+    workflows: ["01 - pre-commit"]
+    types:
+      - completed
+    branches:
+      - master
   workflow_dispatch:
 
 jobs:
