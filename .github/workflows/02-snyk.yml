@@ -1,4 +1,4 @@
-name: 02 - Synk
+name: 02 - Snyk
 
 on:
   workflow_call:
