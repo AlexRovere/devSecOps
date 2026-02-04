@@ -1,4 +1,5 @@
 // Change this if your API runs elsewhere (CI, container, remote)
+const CODE_NO_CONTENT = 204;
 const API_URL = (localStorage.getItem("API_URL") || "http://127.0.0.1:8000");
 document.getElementById("apiUrlLabel").textContent = API_URL;
 
@@ -7,7 +8,9 @@ async function api(path, options = {}) {
     headers: { "Content-Type": "application/json" },
     ...options,
   });
-  if (res.status === 204) return null;
+  if (res.status === CODE_NO_CONTENT) {
+    return null;
+  }
   if (!res.ok) {
     const body = await res.json().catch(() => ({}));
     throw new Error(body.detail || `HTTP ${res.status}`);
@@ -43,7 +46,9 @@ function taskCard(task) {
   });
 
   div.querySelector('[data-role="delete"]').addEventListener("click", async () => {
-    if (!confirm("Supprimer cette tâche ?")) return;
+    if (!confirm("Supprimer cette tâche ?")) {
+      return;
+    }
     await api(`/tasks/${task.id}`, { method: "DELETE" });
     await refresh();
   });

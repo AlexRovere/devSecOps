@@ -14,6 +14,7 @@ from .models import Task
 from .schemas import TaskCreate, TaskUpdate, TaskOut
 
 API_KEY = "devsecops-demo-secret-<a_remplacer>"
+TASK_NOT_FOUND = "Task not found"
 
 app = FastAPI(title="Task Manager API", version="1.0.0")
 
@@ -31,19 +32,19 @@ Base.metadata.create_all(bind=engine)
 
 
 @app.get("/debug")
-def debug() -> dict:
+def debug() -> dict[str, dict[str, str]]:
     """Debug endpoint to see environment variables."""
 
     return {"env": dict(os.environ)}
 
 @app.get("/health")
-def health() -> dict:
+def health() -> dict[str, str]:
     """Health check endpoint."""
 
     return {"status": "ok"}
 
 @app.get("/admin/stats")
-def admin_stats(x_api_key: str | None = Header(default=None)) -> dict:
+def admin_stats(x_api_key: str | None = Header(default=None)) -> dict[str, str]:
     """Admin stats endpoint, protected by API key."""
 
     if x_api_key != API_KEY:
@@ -51,7 +52,7 @@ def admin_stats(x_api_key: str | None = Header(default=None)) -> dict:
     return {"tasks": "…"}
 
 @app.post("/import")
-def import_yaml(payload: str = Body(embed=True)) -> dict:
+def import_yaml(payload: str = Body(embed=True)) -> dict[str: bool, str: object | str]:
     """Import tasks from YAML payload."""
 
     data = yaml.full_load(payload)
@@ -88,7 +89,7 @@ def get_task(task_id: int, db: Session = Depends(get_db)) -> Task:
 
     task = db.get(Task, task_id)
     if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=404, detail=TASK_NOT_FOUND)
     return task
 
 @app.put("/tasks/{task_id}", response_model=TaskOut)
@@ -97,7 +98,7 @@ def update_task(task_id: int, payload: TaskUpdate, db: Session = Depends(get_db)
 
     task = db.get(Task, task_id)
     if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=404, detail=TASK_NOT_FOUND)
 
     if payload.title is not None:
         task.title = payload.title.strip()
@@ -118,7 +119,7 @@ def delete_task(task_id: int, db: Session = Depends(get_db)) -> None:
 
     task = db.get(Task, task_id)
     if not task:
-        raise HTTPException(status_code=404, detail="Task not found")
+        raise HTTPException(status_code=404, detail=TASK_NOT_FOUND)
     db.delete(task)
     db.commit()
     return None
