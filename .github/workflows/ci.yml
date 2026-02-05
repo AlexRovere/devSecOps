@@ -25,7 +25,7 @@ jobs:
   call-docker:
     needs: [call-lint, call-snyk, call-sonarqube]
     uses: ./.github/workflows/04-docker.yml
-  
+
   call-docs:
     needs: [call-docker]
     uses: ./.github/workflows/05-docs.yml
