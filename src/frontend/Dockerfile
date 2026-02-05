@@ -1,4 +1,4 @@
-FROM nginx:alpine3.21@sha256:c3f8e73fdb79deaebaa2037150150191b9dcbfba68b4a46d70103204c53f4709
+FROM nginx:stable-alpine3.21@sha256:30f1c0d78e0ad60901648be663a710bdadf19e4c10ac6782c235200619158284
 LABEL maintainer="Al Rov"
 LABEL description="Image for nginx front of Task Manager application"
 LABEL version=1.0

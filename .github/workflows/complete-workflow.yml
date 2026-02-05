@@ -81,7 +81,7 @@ jobs:
   # Ne se lance QUE si Lint, Snyk et SonarQube ont réussi
   # ------------------------------------------------------------------
   docker:
-    needs: [lint, snyk, sonarqube] # <--- C'est ici qu'on bloque si le code est mauvais
+    needs: [lint, snyk, sonarqube]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -125,11 +125,34 @@ jobs:
           exit-code: "0"
 
   # ------------------------------------------------------------------
-  # JOB 5 : NOTIFICATION FINALE
+  # JOB 5 : DOCS GITHUB PAGES
+  # ------------------------------------------------------------------
+    deploy:
+    needs: docker
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Configure Git Credentials
+        run: |
+          git config user.name github-actions[ci]
+          git config user.email 41898282+github-actions[ci]@users.noreply.github.com
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: 3.x
+
+      - run: pip install mkdocs-material 
+
+      - name: Deploy to GitHub Pages
+        run: mkdocs gh-deploy --force
+
+  # ------------------------------------------------------------------
+  # JOB 6 : NOTIFICATION FINALE
   # S'affiche uniquement si tout le pipeline est vert
   # ------------------------------------------------------------------
   notification:
-    needs: docker
+    needs: docs
     runs-on: ubuntu-latest
     steps:
       - name: Print Success Message

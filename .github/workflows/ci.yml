@@ -25,7 +25,14 @@ jobs:
   call-docker:
     needs: [call-lint, call-snyk, call-sonarqube]
     uses: ./.github/workflows/04-docker.yml
+  
+  call-docs:
+    needs: [call-docker]
+    uses: ./.github/workflows/05-docs.yml
+    permissions:
+      contents: write
+      pull-requests: read
 
   notification:
-    needs: call-docker
-    uses: ./.github/workflows/05-completed.yml
+    needs: call-docs
+    uses: ./.github/workflows/06-completed.yml
