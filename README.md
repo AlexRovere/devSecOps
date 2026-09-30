@@ -1,7 +1,7 @@
 # DevSecOps — pipeline CI de sécurité
 
-[![CI Complète](https://github.com/AlexRovere/devSecOps/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexRovere/devSecOps/actions/workflows/ci.yml)
-[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexrovere.github.io/devSecOps/)
+[![CI Complète](https://github.com/AlexRovere/devsecops-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexRovere/devsecops-pipeline/actions/workflows/ci.yml)
+[![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexrovere.github.io/devsecops-pipeline/)
 
 Pipeline GitHub Actions qui enchaîne lint, analyse de dépendances, analyse statique, scan d'images Docker et publication de la documentation, appliqué à une petite application Task Manager (FastAPI + front statique). Projet réalisé dans le cadre du module DevSecOps de la formation ENI.
 
