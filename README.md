@@ -2,6 +2,7 @@
 
 [![CI Complète](https://github.com/AlexRovere/devsecops-pipeline/actions/workflows/ci.yml/badge.svg)](https://github.com/AlexRovere/devsecops-pipeline/actions/workflows/ci.yml)
 [![Docs](https://img.shields.io/badge/docs-GitHub%20Pages-blue)](https://alexrovere.github.io/devsecops-pipeline/)
+[![Quality Gate](https://sonarcloud.io/api/project_badges/measure?project=AlexRovere_devSecOps&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=AlexRovere_devSecOps)
 
 Pipeline GitHub Actions qui enchaîne lint, analyse de dépendances, analyse statique, scan d'images Docker et publication de la documentation, appliqué à une petite application Task Manager (FastAPI + front statique). Projet réalisé dans le cadre du module DevSecOps de la formation ENI.
 
@@ -28,7 +29,7 @@ Pipeline GitHub Actions qui enchaîne lint, analyse de dépendances, analyse sta
 | `05-docs.yml` | [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) | Publication de la doc sur GitHub Pages |
 | `06-completed.yml` | — | Notification de fin de pipeline |
 
-Les scans remontent les problèmes sans bloquer le pipeline (`continue-on-error`, `exit-code: 0`), pour pouvoir observer les résultats sur une application volontairement vulnérable.
+Le Quality Gate SonarCloud est volontairement en échec : l'application contient des failles non corrigées. Les scans remontent les problèmes sans bloquer le pipeline (`continue-on-error`, `exit-code: 0`), pour pouvoir observer les résultats sur une application volontairement vulnérable.
 
 Autour du pipeline :
 
